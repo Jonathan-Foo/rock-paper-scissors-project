@@ -10,56 +10,67 @@ function computerPlay() {
     return optionsArray[randomChoice()];
 }
 
-function singleGame(playerSelection, computerSelection) {
-    let playerSelectionCorrected = '';
-    playerSelectionCorrected = playerSelection.toLowerCase();
+
+function singleGame(playerChoice) {
+    let playerSelection = playerChoice.target.innerText;
+    let playerSelectionCorrected = playerSelection.toLowerCase();
+    let computerSelection = computerPlay();
+
     if (playerSelectionCorrected !== computerSelection) {
 
         if (playerSelectionCorrected === 'rock' && computerSelection === 'scissors') {
             playerWins++;
-            console.log(`You Win! ${playerSelectionCorrected} beats ${computerSelection}`);
+            result.textContent = `You Win! ${playerSelectionCorrected} beats ${computerSelection}`;
         } else if (playerSelectionCorrected === 'rock' && computerSelection === 'paper') {
             computerWins++
-            console.log(`You Lose! ${computerSelection} beats ${playerSelectionCorrected}`);
+            result.textContent = `You Lose! ${computerSelection} beats ${playerSelectionCorrected}`;
         } else if (playerSelectionCorrected === 'paper' && computerSelection === 'rock') {
             playerWins++;
-            console.log(`You Win! ${playerSelectionCorrected} beats ${computerSelection}`);
+            result.textContent = `You Win! ${playerSelectionCorrected} beats ${computerSelection}`;
         } else if (playerSelectionCorrected === 'paper' && computerSelection === 'scissors') {
             computerWins++
-            console.log(`You Lose! ${computerSelection} beats ${playerSelectionCorrected}`);
+            result.textContent = `You Lose! ${computerSelection} beats ${playerSelectionCorrected}`;
         } else if (playerSelectionCorrected === 'scissors' && computerSelection === 'paper') {
             playerWins++;
-            console.log(`You Win! ${playerSelectionCorrected} beats ${computerSelection}`);
+            result.textContent = `You Win! ${playerSelectionCorrected} beats ${computerSelection}`;
         } else {
             computerWins++
-            console.log(`You Lose! ${computerSelection} beats ${playerSelectionCorrected}`);
+            result.textContent = `You Lose! ${computerSelection} beats ${playerSelectionCorrected}`;
         }
+        
             
     } else {
-        console.log(`Its a tie! You both chose ${computerSelection}`);
+        result.textContent = `Its a tie! You both chose ${computerSelection}`;
     }
-}
 
-
-function game() {
-    for (let i = 0; i < 5; i++) {
-        let playerSelection = prompt('Choose Rock, Paper, or Scissors?', '');
-        let computerSelection = computerPlay();
-        singleGame(playerSelection, computerSelection);  
-    }
+    score.textContent = `Player Wins: ${playerWins} || Robot Wins: ${computerWins}`;
     
-    console.log(playerWins, computerWins);
 
-    if (playerWins > computerWins) {
-        console.log("Your the Champion of Rock, Paper, Scissors!!!");
-    } else if (playerWins < computerWins) {
-        console.log("you lost, better luck next time :(");
-    } else {
-        console.log("Its a tie!!!");
+    if (playerWins == 5 || computerWins == 5) {
+        if (playerWins > computerWins) {
+            result.textContent = "Your the Champion of Rock, Paper, Scissors!!!";
+        } else if (playerWins < computerWins) {
+            result.textContent = "you lost, better luck next time :(";
+        } else {
+            result.textContent = "Its a tie!!!";
+        }
+        playerWins = 0;
+        computerWins = 0;
     }
     
 
 }
 
-game();
+
+
+const choice = Array.from(document.querySelectorAll('button'));
+choice.forEach(decision => decision.addEventListener('click', singleGame));
+
+
+const result = document.querySelector('.results');
+const score = document.querySelector('.score');
+result.textContent = "Result!"
+score.textContent = `Player Wins: ${playerWins} || Robot Wins: ${computerWins}`;
+
+
 
